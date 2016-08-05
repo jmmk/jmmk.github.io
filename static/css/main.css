@@ -1,0 +1,30 @@
+body {
+  background-color: white;
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #222324;
+  text-align: center;
+}
+
+h1 {
+	font-weight: 300;
+	font-size: 48px;
+}
+
+.links {
+  margin: auto;
+  width: 50px;
+}
+
+.links a {
+  text-decoration: none;
+  padding: 2px;
+}
+
+.links img {
+  opacity: 0.5;
+}
+
+.links img:hover {
+  opacity: 0.8;
+}
