@@ -5,7 +5,8 @@ readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly TMP_DIR=$(mktemp -d /tmp/jmmk.github.io.XXXXX)
 readonly REPO=git@github.com:jmmk/jmmk.github.io.git
 readonly GIT="git -C $TMP_DIR"
-readonly COMMIT_MSG="Update to latest build"
+readonly LATEST_COMMIT=$(git rev-parse HEAD)
+readonly COMMIT_MSG="Update to commit $LATEST_COMMIT"
 
 log() {
   echo "$(date '+%Y-%m-%d %H:%M:%S') | Deploy Blog: $1"
