@@ -1,0 +1,43 @@
+#! /usr/bin/env bash
+set -e
+
+readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly TMP_DIR=$(mktemp -d /tmp/jmmk.github.io.XXXXX)
+readonly REPO=git@github.com:jmmk/jmmk.github.io.git
+readonly GIT="git -C $TMP_DIR"
+readonly COMMIT_MSG="Update to latest build"
+
+log() {
+  echo "$(date '+%Y-%m-%d %H:%M:%S') | Deploy Blog: $1"
+}
+
+main() {
+  cd "$DIR"
+
+  log "Clean public directory"
+  rm -rf public
+
+  log "Build hugo blog"
+  hugo
+
+  log "Clone $REPO to $TMP_DIR"
+  $GIT clone -q "$REPO" "$TMP_DIR"
+
+  log "Remove old files"
+  rm -rf "$TMP_DIR"/*
+
+  log "Copy new files"
+  cp -r public/* "$TMP_DIR"
+
+  log "Commit: $COMMIT_MSG"
+  $GIT add -A
+  $GIT commit -q -m "$COMMIT_MSG"
+
+  log "Push master branch"
+  $GIT push -q origin master
+
+  log "Remove temp directory"
+  rm -rf "$TMP_DIR"
+}
+
+main "$@"
